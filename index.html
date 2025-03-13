@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <style>
+        /* Global Styles */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* CAPTCHA Container Styles */
+
+        #captcha-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #captcha-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #captcha-container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* CAPTCHA Challenge Styles */
+
+        #captcha {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #answer {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #answer:focus {
+            border-color: #aaa;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Submit Button Styles */
+
+        #submit {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submit:hover {
+            background-color: #3e8e41;
+        }
+
+        #submit:active {
+            background-color: #3e8e41;
+            transform: translateY(2px);
+        }
+
+        /* Error Message Styles */
+
+        .error-message {
+            font-size: 16px;
+            color: #f44336;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design */
+
+        @media (max-width: 768px) {
+            #captcha-container {
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #captcha-container {
+                margin: 10px auto;
+            }
+
+            #answer {
+                height: 30px;
+            }
+
+            #submit {
+                height: 30px;
+            }
+        }
+    </style>
+    <!-- CAPTCHA challenge container -->
+    <div id="captcha-container">
+        <p id="captcha"></p>
+        <input id="answer" type="number" placeholder="Enter your answer">
+        <button id="submit">Submit</button>
+    </div>
+    <script>
+        // Function to generate a random math problem
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const operator = Math.random() < 0.5 ? '+' : '*';
+            const answer = operator === '+' ? num1 + num2 : num1 * num2;
+
+            return {
+                num1,
+                num2,
+                operator,
+                answer,
+            };
+        }
+
+        // Function to verify the user's answer
+        function verifyAnswer(answer, userAnswer) {
+            return answer === parseInt(userAnswer);
+        }
+
+        // Function to display the CAPTCHA challenge
+        function displayCaptcha() {
+            const captcha = generateCaptcha();
+            const captchaElement = document.getElementById('captcha');
+            const answerElement = document.getElementById('answer');
+
+            captchaElement.innerHTML = `What is ${captcha.num1} ${captcha.operator} ${captcha.num2}?`;
+            answerElement.value = '';
+
+            // Add event listener to submit button
+            document.getElementById('submit').addEventListener('click', () => {
+                const userAnswer = answerElement.value;
+                if (verifyAnswer(captcha.answer, userAnswer)) {
+                    // Redirect to desired page
+                    window.location.href = 'connect.html';
+                } else {
+                    alert('Incorrect answer. Please try again.');
+                }
+            });
+        }
+
+        // Initialize the CAPTCHA challenge
+        displayCaptcha();
+    </script>
+</body>
+
+</html>
